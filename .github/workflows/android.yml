@@ -48,3 +48,4 @@ jobs:
           build/sdist/*.apk
           build/app/outputs/flutter-apk/*.apk
         if-no-files-found: ignore
+
