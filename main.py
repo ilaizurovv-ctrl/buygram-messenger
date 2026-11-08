@@ -2,90 +2,45 @@ import flet as ft
 
 def main(page: ft.Page):
     page.title = "Buygram"
-    page.theme_mode = ft.ThemeMode.DARK
-    page.padding = 0
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.bgcolor = "#121212" # Темный стиль мессенджера
 
-    app_bar = ft.AppBar(
-        title=ft.Text("Buygram", weight=ft.FontWeight.BOLD),
-        center_title=False,
-        bgcolor=ft.Colors.BLUE_GREY_900,
-        actions=[
-            ft.IconButton(ft.Icons.SEARCH),
-            ft.IconButton(ft.Icons.MORE_VERT),
-        ],
+    # Поле ввода номера
+    phone_input = ft.TextField(
+        label="Номер телефона",
+        prefix_text="+",
+        keyboard_type=ft.KeyboardType.PHONE,
+        width=300,
+        border_radius=10
     )
 
-    messages_list = ft.Column(scroll=ft.ScrollMode.AUTO, expand=True)
+    # Кнопка продолжить
+    def button_clicked(e):
+        page.snack_bar = ft.SnackBar(ft.Text(f"Введен номер: {phone_input.value}"))
+        page.snack_bar.open = True
+        page.update()
 
-    input_field = ft.TextField(
-        hint_text="Сообщение...",
-        expand=True,
-        border_radius=20,
-        content_padding=10
+    next_button = ft.ElevatedButton(
+        text="Далее",
+        on_click=button_clicked,
+        width=300
     )
 
-    def send_message(e):
-        if input_field.value.strip():
-            messages_list.controls.append(
-                ft.Row(
-                    [
-                        ft.Container(
-                            content=ft.Text(input_field.value, color=ft.Colors.WHITE),
-                            bgcolor=ft.Colors.BLUE_600,
-                            padding=10,
-                            border_radius=12,
-                        )
-                    ],
-                    alignment=ft.MainAxisAlignment.END,
-                )
-            )
-            val = input_field.value
-            input_field.value = ""
-            page.update()
-
-            messages_list.controls.append(
-                ft.Row(
-                    [
-                        ft.Container(
-                            content=ft.Text(f"Buygram Bot: Принято «{val}»", color=ft.Colors.WHITE),
-                            bgcolor=ft.Colors.GREY_800,
-                            padding=10,
-                            border_radius=12,
-                        )
-                    ],
-                    alignment=ft.MainAxisAlignment.START,
-                )
-            )
-            page.update()
-
-    send_btn = ft.IconButton(
-        icon=ft.Icons.SEND,
-        icon_color=ft.Colors.BLUE_400,
-        on_click=send_message
-    )
-
-    messages_list.controls.append(
-        ft.Row(
-            [
-                ft.Container(
-                    content=ft.Text("Добро пожаловать в Buygram!", color=ft.Colors.WHITE),
-                    bgcolor=ft.Colors.GREY_800,
-                    padding=10,
-                    border_radius=12,
-                )
-            ],
-            alignment=ft.MainAxisAlignment.START,
-        )
-    )
-
+    # Добавляем элементы на экран
     page.add(
-        app_bar,
-        messages_list,
-        ft.Container(
-            content=ft.Row([input_field, send_btn]),
-            padding=10,
-            bgcolor=ft.Colors.BLUE_GREY_900
+        ft.Column(
+            [
+                ft.Text("Добро пожаловать в Buygram", size=24, weight=ft.FontWeight.BOLD, color="white"),
+                ft.Text("Введите ваш номер телефона для входа", size=14, color="grey"),
+                ft.Container(height=20),
+                phone_input,
+                ft.Container(height=10),
+                next_button
+            ],
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            alignment=ft.MainAxisAlignment.CENTER
         )
     )
 
-ft.app(main)
+ft.app(target=main)
