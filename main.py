@@ -88,4 +88,4 @@ def main(page: ft.Page):
         )
     )
 
-ft.run_app(target=main)
+ft.app(main)
