@@ -37,7 +37,7 @@ jobs:
 
     - name: Build APK with Flet
       run: |
-        flet build apk --verbose
+        python3 -c "import subprocess; subprocess.run(['flet', 'build', 'apk'], input=b'y\n')"
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
