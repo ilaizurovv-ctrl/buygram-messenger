@@ -3,8 +3,6 @@ name: Build Buygram APK
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
@@ -29,9 +27,6 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '17'
-
-    - name: Set up Android SDK
-      uses: android-actions/setup-android@v2
 
     - name: Build APK with Flet
       env:
