@@ -22,21 +22,26 @@ jobs:
         python -m pip install --upgrade pip
         pip install flet pyinstaller
 
-    - name: Set up JDK
+    - name: Set up Java JDK
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
         java-version: '17'
 
+    - name: Install Flutter SDK
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.19.x'
+        channel: 'stable'
+        cache: true
+
     - name: Build APK with Flet
-      env:
-        FLET_SUPPRESS_ANALYTICS: "true"
       run: |
-        python3 -c "import subprocess; subprocess.run(['flet', 'build', 'apk'], input=b'y\n')"
+        flet build apk --verbose
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
       with:
         name: buygram-release-apk
-        path: build/sdist/*.apk
+        path: build/apk/*.apk
         if-no-files-found: ignore
