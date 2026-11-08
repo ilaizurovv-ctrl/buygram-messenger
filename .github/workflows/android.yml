@@ -43,5 +43,8 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: buygram-release-apk
-        path: build/apk/*.apk
+        path: |
+          build/apk/*.apk
+          build/sdist/*.apk
+          build/app/outputs/flutter-apk/*.apk
         if-no-files-found: ignore
